@@ -1,7 +1,6 @@
 import socket
 import os
 import config
-from views import *
 
 
 IP_ADDRESS = config.get_ipAdress()
@@ -20,26 +19,46 @@ def parse_request(request):
 
 def generate_headers(method, url):
     if not method == 'GET':
-        return ('HTTP/1.1 405 Method not allowed\n\n', 405)
+        return ('HTTP/1.1 405 Method not allowed\n', 405)
 
-    if  os.path.exists(DIR + url) == False:
-        return ('HTTP/1.1 404 Not found\n\n', 404)
+    #os.path.exists - возвращает True, если path указывает на существующий путь или дескриптор открытого файла
+    #os.path.isfile - является ли путь файлом
+    if  os.path.exists(DIR + url) == False or os.path.isfile(DIR + url) == False:
+        return ('HTTP/1.1 404 Not found\n', 404)
 
-    return ('HTTP/1.1 200 OK\n\n', 200)
+    return ('HTTP/1.1 200 OK\n', 200)#перенос
 
-def generate_content(code, url):
+def generate_content_status(code, url):
     if code == 404:
         return '<h1>404</h1><p>Not found</p>'
     if code == 405:
         return '<h1>405</h1><p>Method not allowed</p>'
-    return readView(url)
+    return 200
 
-def generate_response(request, method, url):
+def getResponse(request, method, url):
     headers, code = generate_headers(method, url)
-    body = generate_content(code, url)
-    return (headers + body).encode()
 
-def postRequest( request):
+    content_status = generate_content_status(code, url)
+    if content_status == 200:
+        formatUrl = url.split('.')
+        if formatUrl[formatUrl.__len__() - 1] == 'jpg' or formatUrl[formatUrl.__len__() - 1] == 'png' or formatUrl[formatUrl.__len__() - 1] == 'gif':
+            additional_header, r = pictureResponse(url)
+            return (headers + additional_header).encode() + r
+        else:
+            body = readView(url)
+            return (headers + '\n' + body).encode()
+
+    return (headers + '\n' + content_status).encode()
+
+def pictureResponse(url):
+    #rb - Opens a file for reading only in binary format.
+    f = open(DIR + url, 'rb')
+    r = f.read()
+    additional_header = 'Content-Length: ' + r.__sizeof__().__str__() + '\nContent-Type: image/jpeg\n\n'
+    f.close()
+    return additional_header, r
+
+def postRequest(request):
     method, url = parse_request(request)
     print(method, url)
     #body = URLS['/handlerPostRequest'](request)
@@ -51,7 +70,7 @@ def getOrPost(request):
         postResponse = postRequest(request.decode())
         return postResponse
     else:
-        response = generate_response(request.decode('utf-8'), method, url)
+        response = getResponse(request.decode('utf-8'), method, url)
         return response
 
 def run():
