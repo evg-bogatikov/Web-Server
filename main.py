@@ -18,7 +18,7 @@ def listener(host, i, dir):
         client_socket, addr = server.accept()
         request = client_socket.recv(BUFSIZE)
         response = handlerRequest.getResponse(request, dir)
-        print('Thread: '+ str(i))
+        print(f"Thread: {str(i)} \n Host: {host} her directory: {dir}")
         client_socket.sendall(response)
         client_socket.close()
 
