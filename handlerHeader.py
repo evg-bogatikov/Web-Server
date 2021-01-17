@@ -48,6 +48,3 @@ def generateStatusCodeResponse(method, url, dir):
 
     return ('HTTP/1.1 200 OK\n', 200)
 
-
-def generateResponseHeader(headers, data):
-    return str(headers + ':' + data)
