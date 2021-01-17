@@ -1,9 +1,5 @@
 def getData(request):
-    result = parseBody(request.decode())
-    return result
-
-
-def parseBody(request):
+    request = request.decode()
     arrayRequest = request.split('\n')
     data = arrayRequest[len(arrayRequest) - 1]
     data = data.split('&')
