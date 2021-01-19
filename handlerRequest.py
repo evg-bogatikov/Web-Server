@@ -17,14 +17,17 @@ def getResponse(request, dir):
     method, url = handlerHeader.parseStatusRequest()
     status, code = handlerHeader.generateStatusCodeResponse(method, url, dir)
     content_status = generateContentStatus(code)
-    print(handlerHeader.getItemRequestHeader('Connection'))
+
     if content_status == 200:
         if method == 'GET':
-            additional_header, r, body = getRequest.getContent(url, dir)
+            r, body = getRequest.getContent(url, dir)
+            responseHeaders = handlerHeader.getResponseHeaders()
+            handlerHeader.clearResponseHeaders()
+            print(responseHeaders)
             if not body == None:
-                return (status + '\n' + body).encode()
-            elif not (additional_header and r) == None:
-                return (status + additional_header).encode() + r
+                return (status + '\n\n' + body).encode()
+            elif not (responseHeaders and r) == None:
+                return (status + responseHeaders).encode() + r
         elif method == 'POST':
             data = postRequest.getData(request)
             POST = data

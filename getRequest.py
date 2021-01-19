@@ -1,25 +1,30 @@
+import handlerHeader
+
 def getContent(url, DIR):
     formatUrl = url.split('.')
     if formatUrl[formatUrl.__len__() - 1] == 'jpg' or formatUrl[formatUrl.__len__() - 1] == 'png' or formatUrl[
         formatUrl.__len__() - 1] == 'gif':
-        additional_header, r = pictureResponse(url, DIR)
+        r = pictureResponse(url, DIR)
         body = None
 
         # print(r)
-        return additional_header, r, None
+        return r, None
     else:
         body = readView(url, DIR)
         # print(body)
-        return None, None, body
+        return None, body
 
 
 def pictureResponse(url, DIR):
     # rb - Opens a file for reading only in binary format.
     f = open(DIR + url, 'rb')
     r = f.read()
-    additional_header = 'Content-Length: ' + r.__sizeof__().__str__() + '\nContent-Type: image/gif\n\n'
+    #additional_header = 'Content-Length: ' + r.__sizeof__().__str__() + '\nContent-Type: image/gif\n\n'
+    handlerHeader.addResponseHeaders('Content-Length', r.__sizeof__().__str__())
+    handlerHeader.addResponseHeaders('Content-Type', 'image/gif')
+    handlerHeader.getResponseHeaders()
     f.close()
-    return additional_header, r
+    return r
 
 
 def readView(url, DIR):

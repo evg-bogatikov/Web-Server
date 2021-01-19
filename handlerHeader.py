@@ -1,8 +1,8 @@
 import os
 
 statusCode = str
-headers = {}
-
+requestHeaders = {}
+responseHeaders = {}
 
 def parseHeader(request):
     request = request.decode()
@@ -18,15 +18,15 @@ def parseHeader(request):
         i = i.replace('\r', '')
         i = i.split(':', maxsplit=1)
 
-        headers[i[0]] = i[1]
+        requestHeaders[i[0]] = i[1]
 
 
 def getItemRequestHeader(key):
-    return key + ':' + headers.get(key)
+    return key + ':' + requestHeaders.get(key)
 
 
 def getAllRequestHearder():
-    return headers.items()
+    return requestHeaders.items()
 
 
 def parseStatusRequest():
@@ -48,3 +48,16 @@ def generateStatusCodeResponse(method, url, dir):
 
     return ('HTTP/1.1 200 OK\n', 200)
 
+def addResponseHeaders(nameHeader, dataHeader):
+    responseHeaders[nameHeader] = dataHeader
+
+def clearResponseHeaders():
+    responseHeaders.clear()
+
+def getResponseHeaders():
+    result = ''
+    for i in responseHeaders:
+        result += i + ': ' + responseHeaders[i] + '\n'
+
+    result += '\n'
+    return result

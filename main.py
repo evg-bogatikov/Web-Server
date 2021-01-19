@@ -24,7 +24,7 @@ def listener(host, i, dir):
             print(f"Thread: {str(i)}  Host: {host} her directory: {dir}")
             client_socket.sendall(response)
         except:
-            print('Error - double request')
+            print('Double request or another unknown error')
 
         client_socket.close()
 
