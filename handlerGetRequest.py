@@ -12,11 +12,12 @@ class HandlerGetRequest:
             r = self.pictureResponse(url)
             body = None
 
-            # print(r)
+            print(type(r))
             return r, None
         else:
             body = self.readView(url)
             # print(body)
+
             return None, body
 
 

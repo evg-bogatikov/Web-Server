@@ -1,0 +1,30 @@
+@startuml
+
+Client -> Main ++ : request
+    Main -> Config ++ : getHost, getPort, getDir, getBufSize
+    return
+    Main -> ControlRequest ++:getResponse
+    ControlRequest -> ControlRequest : decodeRequest
+    ControlRequest -> HandlerRequestLine ++ :parseStatusRequest
+    HandlerRequestLine -> ControlRequest : method, urn
+    ControlRequest -> HandlerRequestLine:generateResponseLine
+    HandlerRequestLine -> ControlRequest : response Line
+    ControlRequest -> HandlerRequestLine:generateContentStatus
+    return Content Status
+    alt if method == GET
+        ControlRequest -> HandlerGetRequest ++:getContent
+        alt if formatUrl == jpg or formatUrl == png or formatUrl == gif
+             HandlerGetRequest -> HandlerGetRequest : pictureResponse
+             else
+              HandlerGetRequest -> HandlerGetRequest : readView
+        end
+        return content
+        ControlRequest -> HandlerHeaders: getResponseHeaders
+        HandlerHeaders -> ControlRequest: response headers
+    else if method == POST
+        ControlRequest -> HandlerPostRequest ++: getData
+    end
+    return response
+return response
+
+@enduml

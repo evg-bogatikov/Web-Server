@@ -6,7 +6,7 @@ class HandlerHeaders:
     def parseHeader(self, request):
         # request = request.decode()
         # request = list(request.split('\n'))
-
+        print(request)
         request.pop(0)
 
         for i in request:
@@ -21,7 +21,7 @@ class HandlerHeaders:
     def getItemRequestHeader(self, key):
         return key + ':' + self.requestHeaders.get(key)
 
-    def getAllRequestHearder(self):
+    def getAllRequestHeader(self):
         return self.requestHeaders.items()
 
     def addResponseHeaders(self, nameHeader, dataHeader):

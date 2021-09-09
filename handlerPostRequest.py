@@ -2,9 +2,7 @@ class HandlerPostRequest:
 
 
     def getData(self, request):
-        request = request.decode()
-        arrayRequest = request.split('\n')
-        data = arrayRequest[len(arrayRequest) - 1]
+        data = request[len(request) - 1]
         data = data.split('&')
         result = {}
         for item in data:
