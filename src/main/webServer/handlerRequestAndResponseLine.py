@@ -1,7 +1,7 @@
 import os
 
 
-class HandlerRequestLine:
+class HandlerRequestAndResponseLine:
 
     def parseStatusRequest(self, request):
         statusCode = request[0]
@@ -25,7 +25,7 @@ class HandlerRequestLine:
         # os.path.exists - возвращает True, если path указывает на существующий путь или дескриптор открытого файла
         # os.path.isfile - является ли путь файлом
 
-        if os.path.exists(dir + urn) == False or os.path.isfile(dir + urn) == False:
+        if os.path.exists('../resources/' + dir + urn) == False or os.path.isfile('../resources/' + dir + urn) == False:
             return ('HTTP/1.1 404 Not found\n', 404)
 
         return ('HTTP/1.1 200 OK\n', 200)

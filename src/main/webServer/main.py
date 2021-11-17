@@ -2,7 +2,7 @@ import socket
 from config import Config
 from handlerHeaders import HandlerHeaders
 from controlRequest import ControlRequest
-from handlerRequestLine import HandlerRequestLine
+from handlerRequestAndResponseLine import HandlerRequestAndResponseLine
 from threading import Thread
 
 class Main(object):
@@ -24,14 +24,16 @@ class Main(object):
             client_socket, addr = server.accept()
             try:
                 request = client_socket.recv(self.BUFSIZE)
-
+                # print(''.join([chr(x) for x in request]))
                 response = self.handlerR.getResponse(request, dir)
                 print(f"Thread: {str(i)}  Host: {host} her directory: {dir}")
                 client_socket.sendall(response)
-            except:
-                print('Double request or another unknown error')
+            except socket.error as e:
+                print(e)
 
             client_socket.close()
+
+
 
 
     def createServer(self):
@@ -44,7 +46,7 @@ class Main(object):
 
 if __name__ == '__main__':
     handlerH = HandlerHeaders()
-    handlerS = HandlerRequestLine()
+    handlerS = HandlerRequestAndResponseLine()
     handlerR = ControlRequest(handlerH, handlerS)
     config = Config()
     main = Main(handlerR, config)

@@ -1,9 +1,9 @@
 import unittest
-from handlerGetRequest import HandlerGetRequest
+from main.webServer.handlerGetRequest import HandlerGetRequest
 
 class testHandlerGetRequest(unittest.TestCase):
 
-    handlerGetRequest = HandlerGetRequest('', 'mock_templates2')
+    handlerGetRequest = HandlerGetRequest('', '../resources/mock_templates2')
 
     def test_readView(self):
         url = '/blog.html'

@@ -36,7 +36,6 @@ class ControlRequest:
                     return (status + responseHeaders).encode() + r
             elif method == 'POST':
                 data = handlerPostR.getData(request)
-                POST = data
-                return (status + '\n' + '<h1>Post request completed successfully!</h1>').encode()
+                return (status + '\n' + '<h1>Post request completed successfully! Your data: <br/>'+ data.__str__() +'</h1>').encode()
 
         return (status + '\n' + content_status).encode()

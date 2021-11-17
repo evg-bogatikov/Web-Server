@@ -1,5 +1,5 @@
 import unittest
-from handlerPostRequest import HandlerPostRequest
+from main.webServer.handlerPostRequest import HandlerPostRequest
 
 class MyTestCase(unittest.TestCase):
 

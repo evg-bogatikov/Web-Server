@@ -1,9 +1,9 @@
 import unittest
-from handlerRequestLine import  HandlerRequestLine
+from main.webServer.handlerRequestAndResponseLine import  HandlerRequestAndResponseLine
 
 class TestHandlerRequestLine(unittest.TestCase):
 
-    handlerRequestLine = HandlerRequestLine()
+    handlerRequestLine = HandlerRequestAndResponseLine()
 
     def test_parseStatusRequest(self):
         request = ["GET /blog.html HTTP/1.1\r", "Content-Type: text/xml"]
@@ -16,7 +16,7 @@ class TestHandlerRequestLine(unittest.TestCase):
     def test_generateResponseLine(self):
         method = 'GET'
         urn = '/blog.html'
-        dir = 'mock_templates2'
+        dir = '../resources/mock_templates2'
 
         result = ('HTTP/1.1 200 OK\n', 200)
 
