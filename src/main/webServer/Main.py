@@ -1,8 +1,8 @@
 import socket
-from config import Config
-from handlerHeaders import HandlerHeaders
-from controlRequest import ControlRequest
-from handlerRequestAndResponseLine import HandlerRequestAndResponseLine
+from Config import Config
+from HandlerHeaders import HandlerHeaders
+from ControlRequest import ControlRequest
+from HandlerRequestAndResponseLine import HandlerRequestAndResponseLine
 from threading import Thread
 
 class Main(object):

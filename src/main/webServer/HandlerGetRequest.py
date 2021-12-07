@@ -4,18 +4,14 @@ class HandlerGetRequest:
         self.DIR = DIR
         self.handlerHeaders = handlerHeaders
 
-
     def getContent(self, urn):
-        urnArray = urn.split('.')
-        formatFile = urnArray[urnArray.__len__() - 1]
-        if formatFile == 'jpg' or formatFile == 'png' or formatFile == 'gif':
-            r = self.pictureResponse(urn)
-            body = None
-            return r, None
+        formatUrl = urn.split('.')
+        if formatUrl[formatUrl.__len__() - 1] == 'jpg' or formatUrl[formatUrl.__len__() - 1] == 'png' or formatUrl[
+            formatUrl.__len__() - 1] == 'gif':
+            body = self.pictureResponse(urn)
         else:
             body = self.readView(urn)
-            print("Body" + type(body) + body)
-            return None, body
+        return body
 
 
     def pictureResponse(self, urn):

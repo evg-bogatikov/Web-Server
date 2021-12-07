@@ -1,5 +1,5 @@
-import handlerGetRequest
-import handlerPostRequest
+import HandlerGetRequest
+import HandlerPostRequest
 
 
 class ControlRequest:
@@ -21,19 +21,18 @@ class ControlRequest:
         status, code = self.handlerRequestLine.generateResponseLine(method, url, dir)
         content_status = self.handlerRequestLine.generateContentStatus(code)
 
-        handlerGetR = handlerGetRequest.HandlerGetRequest(self.handlerHeaders, dir)
-        handlerPostR = handlerPostRequest.HandlerPostRequest()
+        handlerGetR = HandlerGetRequest.HandlerGetRequest(self.handlerHeaders, dir)
+        handlerPostR = HandlerPostRequest.HandlerPostRequest()
 
         if content_status == 200:
             if method == 'GET':
-                r, body = handlerGetR.getContent(url)
+                body = handlerGetR.getContent(url)
                 responseHeaders = self.handlerHeaders.getResponseHeaders()
                 self.handlerHeaders.clearResponseHeaders()
-                if not body == None:
-                    a = (status + '\n\n' + body).encode()
+                if not responseHeaders == '\n' and not body == None:
+                    return (status + responseHeaders).encode() + body
+                elif not body == None:
                     return (status + '\n\n' + body).encode()
-                elif not (responseHeaders and r) == None:
-                    return (status + responseHeaders).encode() + r
             elif method == 'POST':
                 data = handlerPostR.getData(request)
                 return (status + '\n' + '<h1>Post request completed successfully! Your data: <br/>'+ data.__str__() +'</h1>').encode()
